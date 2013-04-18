@@ -3,7 +3,7 @@
 
 """GNUTLS Twisted interface"""
 
-__all__ = ['X509Credentials', 'connectTLS', 'listenTLS']
+__all__ = ['X509Credentials', 'OpenPGPCredentials',  'connectTLS', 'listenTLS']
 
 from time import time
 
