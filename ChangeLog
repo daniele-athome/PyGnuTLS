@@ -1,0 +1,148 @@
+Changes in version 1.2.4
+------------------------
+
+  * Fixed compatibility with twisted 11.1.0 for TLSServer as well
+
+Changes in version 1.2.3
+------------------------
+
+  * Always use the gnutls library with the requested version
+  * Fixed issue with dlopen ignoring changes to LD_LIBRARY_PATH after launch
+  * Fixed the twisted interface to work with changes in twisted 11.1.0
+  * Removed unused imports and variables
+  * Allow specifying the server session class in TLSPort and reactor.listenTLS
+
+Changes in version 1.2.2
+------------------------
+
+  * Fixed compatibility with libgnutls 2.11
+  * Bumped debian standards version to 3.9.2
+  * Reworked debian packaging
+
+Changes in version 1.2.1
+------------------------
+
+  * Removed no longer needed dependencies from Build-Depends
+  * Add the current directory to the Windows search path
+  * Refactored error handling code to improve robustness
+  * Allow extension to be build with mingw on windows
+  * Use the system path separator when building the list of packages
+  * Only load SRP functions from libgnutls if available
+  * Fixed compatibility with Twisted 11.0
+  * Included support for more protocols, ciphers and MAC algorithms
+  * Added export methods on X509Certificate, X509PrivateKey and X509CRL
+  * Bumped Debian standards version to 3.9.1
+  * Added debian source format file
+
+Changes in version 1.2.0
+------------------------
+
+  * Fixed threading issue with ctypes older than 1.0.3
+  * Removed compile time dependency on gnutls and reorganized library code
+  * Improved finding the gnutls library at runtime
+  * Fixed the shutdown procedure in examples/server.py
+  * Remove unneeded shutdown call from examples/client.py
+  * Made examples/server.py threaded
+  * Simplified windows build procedure
+  * Added support for cygwin
+  * Improved error handling
+  * Added INSTALL file
+  * Bumped debian standards version to 3.8.3
+
+Changes in version 1.1.9
+------------------------
+
+  * Made loseConnection signature match the corresponding one from twisted
+  * Bumped debian standards version to 3.8.2
+  * Fixed lintian warning about missing misc:Depends dependency
+
+Changes in version 1.1.8
+------------------------
+
+  * Workaround for changed tcp.Server.__init__ signature in twisted 8.2.0
+  * Fixed DeprecationWarning when running with python2.6 or newer
+
+Changes in version 1.1.7
+------------------------
+
+  * Updated debian build dependency to libgnutls-dev 2.4.1 or newer
+  * Use the default python interpreter instead of /usr/bin/python in
+    example, test and setup scripts
+  * Improved detection of gnutls libraries by using libgnutls-config
+  * Fixed gnutls library location for Mac OSX installations
+
+Changes in version 1.1.6
+------------------------
+
+  * Require libgnutls version 2.4.1 or higher.
+
+Changes in version 1.1.5
+------------------------
+
+  * Added server name extension support.
+  * Fixed 64-bit issues with size_t and ssize_t.
+  * Require libgnutls version 2.2.2 or higher.
+
+Changes in version 1.1.4
+------------------------
+
+  * Better integration with twisted. The TLSClient and TLSServer
+    classes now declare that they implement ISSLTransport.
+
+Changes in version 1.1.3
+------------------------
+
+  * Better version headers for changelog entries.
+  * Check if C module initialization failed.
+
+Changes in version 1.1.2
+------------------------
+
+  * Added LICENSE file and updated copyright notices to reference it.
+  * Only included the relevant examples in the source distribution.
+  * Avoid multiple splits on name/value pairs in X509Name.
+
+Changes in version 1.1.1
+------------------------
+
+  * Removed a circular reference manifesting on handshake failures.
+
+Changes in version 1.1.0
+------------------------
+
+  * Send TLS bye if the client session peer certificate verification fails
+  * Based CertificateError on GNUTLSError and added 4 new certificate related
+    exceptions derived from it.
+  * Added the ability to send TLS alerts based on certain error conditions
+    Using this mechanism a python exception related to GNUTLS can be mapped
+    to a TLS alert and sent to the peer which will map it back to the original
+    python exception, making it possible to transfer error conditions and
+    raise their corresponding exception on the other side that becomes this
+    way aware of the errors that occured in the peer. Currently this is used
+    to map certificate related exceptions into TLS alerts and back to python
+    exceptions on the other side.
+  * Send a TLS alert before closing a connection as a result of an error in
+    the twisted interface.
+  * Preserve closing reason while sending the close alerts.
+  * Pass the proper exception when a client connection fails.
+  * Improved some exception messages related to certificate errors.
+  * Added the ability to specify the certificate name to use in exceptions
+    raised by certificate checking methods, which helps improve the clarity
+    of the error messages.
+  * Set transport on protocol after the TCP connection is made, because we
+    may call connectionLost without calling connectionMade if TLS negociation
+    fails (which in turn will call connectionLost on the protocol).
+  * Added _closeWriteConnection to handle half closed connections.
+
+Changes in version 1.0.2
+------------------------
+
+  * Avoid the need to handle bye timeouts in the twisted interface by not
+    waiting for the bye notification acknowledgement as we do not use the
+    TCP connection anymore after closing the TLS session.
+
+Changes in version 1.0.1
+------------------------
+
+  * Fixed typo in internal class name in the twisted interface
+
