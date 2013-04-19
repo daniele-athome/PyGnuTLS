@@ -258,17 +258,24 @@ class OpenPGPCredentials(TLSCredentials):
             gnutls_certificate_set_openpgp_key(self._c_object, cert._c_object, key._c_object)
         elif (cert, key) != (None, None):
             raise ValueError("Specify neither or both the certificate and private key")
-        gnutls_certificate_server_set_retrieve_function(self._c_object, _retrieve_openpgp_server_certificate)
         self._max_depth = 5
         self._max_bits  = 8200
         self._type = CRED_CERTIFICATE
         self._cert = cert
         self._key = key
         self._identities = tuple(identities)
-        self.server_name_identities = _ServerNameOpenPGPIdentities(identities)
-        if cert and key:
-            self.server_name_identities.add(OpenPGPIdentity(cert, key))
+
+        # enable server name extension only if identities are supplied
+        if identities:
+            gnutls_certificate_server_set_retrieve_function(self._c_object, _retrieve_openpgp_server_certificate)
+            self.server_name_identities = _ServerNameOpenPGPIdentities(identities)
+            if cert and key:
+                self.server_name_identities.add(OpenPGPIdentity(cert, key))
+
         self.session_params = SessionParams(self._type, 'NORMAL:+CTYPE-OPENPGP')
+        # regenerate dh params
+        self.generate_dh_params()
+        gnutls_certificate_set_dh_params(self._c_object, OpenPGPCredentials.dh_params)
 
     def __del__(self):
         self.__deinit(self._c_object)
@@ -320,7 +327,7 @@ class OpenPGPCredentials(TLSCredentials):
         if server_name is not None:
             return self.server_name_identities.get(server_name)
         elif self.cert and self.key:
-            return self ## since we have the cert and key attributes we can behave like a X509Identity
+            return self ## since we have the cert and key attributes we can behave like a OpenPGPIdentity
         else:
             return None
 
