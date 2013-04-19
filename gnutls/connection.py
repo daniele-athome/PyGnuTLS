@@ -52,8 +52,8 @@ def _retrieve_openpgp_server_certificate(c_session, retr_st):
         retr_st.contents.ncerts = 0
     else:
         retr_st.contents.ncerts = 1
-        retr_st.contents.cert.openpgp.contents = identity.cert._c_object
-        retr_st.contents.key.openpgp = identity.key._c_object
+        retr_st.contents.cert.pgp.contents = identity.cert._c_object
+        retr_st.contents.key.pgp = identity.key._c_object
     return 0
 
 
