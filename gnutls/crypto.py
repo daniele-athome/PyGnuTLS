@@ -328,9 +328,14 @@ class OpenPGPUid(str):
             str.__setattr__(self, 'comment', comment)
             str.__setattr__(self, 'email', email)
         except:
-            import traceback
-            traceback.print_exc()
-            raise ValueError("Invalid OpenPGP uid: %s" % dname)
+            # try without comment
+            m = re.split(r'^(.*) <(.*)>$', dname)
+            try:
+                unused1, name, email, unused2 = m
+                str.__setattr__(self, 'name', name)
+                str.__setattr__(self, 'email', email)
+            except:
+                raise ValueError("Invalid OpenPGP uid: %s" % dname)
 
         for name in OpenPGPUid.ids:
             if not hasattr(self, name):
