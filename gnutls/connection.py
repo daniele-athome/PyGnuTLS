@@ -250,9 +250,9 @@ class OpenPGPCredentials(TLSCredentials):
         instance._c_object = c_object
         return instance
 
-    @method_args((OpenPGPCertificate, none), (OpenPGPPrivateKey, none), list_of(OpenPGPIdentity))
-    def __init__(self, cert=None, key=None, identities=[]):
-        """Credentials contain an OpenPGP certificate and a private key (all optional).
+    @method_args((OpenPGPCertificate, none), (OpenPGPPrivateKey, none), (str, none), list_of(OpenPGPIdentity))
+    def __init__(self, cert=None, key=None, keyring=None, identities=[]):
+        """Credentials contain an OpenPGP certificate, a list of trusted signers and a private key (all optional).
         An optional list of additional OpenPGP identities can be specified for applications that need more that one identity"""
         if cert and key:
             gnutls_certificate_set_openpgp_key(self._c_object, cert._c_object, key._c_object)
@@ -264,6 +264,9 @@ class OpenPGPCredentials(TLSCredentials):
         self._cert = cert
         self._key = key
         self._identities = tuple(identities)
+        self._keyring = keyring
+        if keyring:
+            gnutls_certificate_set_openpgp_keyring_file(self._c_object, keyring, OPENPGP_FMT_RAW)
 
         # enable server name extension only if identities are supplied
         if identities:
@@ -313,12 +316,11 @@ class OpenPGPCredentials(TLSCredentials):
     def check_certificate(self, cert, cert_name='certificate'):
         """Verify activation, expiration and revocation for the given certificate"""
         now = time()
-        if cert.activation_time > now:
+        if cert.creation_time > now:
             raise CertificateExpiredError("%s is not yet activated" % cert_name)
-        if cert.expiration_time < now:
+        exp = cert.expiration_time
+        if exp > 0 and exp < now:
             raise CertificateExpiredError("%s has expired" % cert_name)
-        for crl in self.crl_list:
-            crl.check_revocation(cert, cert_name=cert_name)
 
     def select_server_identity(self, session):
         """Select which identity the server will use for a given session. The default selection algorithm uses
