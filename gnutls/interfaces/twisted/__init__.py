@@ -364,15 +364,3 @@ def listenTLS(reactor, port, factory, credentials, backlog=50, interface='', ses
     p = TLSPort(port, factory, credentials, backlog, interface, reactor, session_class)
     p.startListening()
     return p
-
-## Add the connectTLS and listenTLS methods to the reactor
-
-import new
-from twisted.internet.posixbase import PosixReactorBase
-
-method = new.instancemethod(connectTLS, None, PosixReactorBase)
-setattr(PosixReactorBase, 'connectTLS', method)
-
-method = new.instancemethod(listenTLS, None, PosixReactorBase)
-setattr(PosixReactorBase, 'listenTLS', method)
-
