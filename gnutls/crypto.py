@@ -4,13 +4,13 @@
 """GNUTLS crypto support"""
 
 __all__ = ['X509Name', 'X509Certificate', 'X509PrivateKey', 'X509Identity', 'X509CRL',
-           'OpenPGPUid', 'OpenPGPCertificate', 'OpenPGPPrivateKey', 'OpenPGPIdentity',
+           'OpenPGPUid', 'OpenPGPCertificate', 'OpenPGPPrivateKey', 'OpenPGPIdentity', 'OpenPGPKeyring',
            'DHParams', 'RSAParams']
 
 import re
 from ctypes import *
 
-from gnutls.validators import method_args, one_of
+from gnutls.validators import method_args, one_of, list_of
 from gnutls.constants import X509_FMT_DER, X509_FMT_PEM, OPENPGP_FMT_RAW, OPENPGP_FMT_BASE64
 from gnutls.errors import *
 
@@ -447,6 +447,30 @@ class OpenPGPIdentity(object):
             raise AttributeError("can't delete attribute")
         object.__delattr__(self, name)
 
+
+class OpenPGPKeyring(object):
+
+    def __new__(cls, *args, **kwargs):
+        instance = object.__new__(cls)
+        instance.__deinit = gnutls_openpgp_keyring_deinit
+        instance._c_object = gnutls_openpgp_keyring_t()
+        return instance
+
+    @method_args(str)
+    def __init__(self, filename):
+        gnutls_openpgp_keyring_init(byref(self._c_object))
+        buf = open(filename).read()
+        print "importing", type(buf), len(buf), buf
+        data = gnutls_datum_t(cast(c_char_p(buf), POINTER(c_ubyte)), c_uint(len(buf)))
+        gnutls_openpgp_keyring_import(self._c_object, byref(data), OPENPGP_FMT_RAW)
+        del data
+        print gnutls_openpgp_keyring_get_crt_count(self._c_object)
+
+    def __del__(self):
+        self.__deinit(self._c_object)
+
+    def __len__(self):
+        return gnutls_openpgp_keyring_get_crt_count(self._c_object)
 
 class DHParams(object):
     def __new__(cls, *args, **kwargs):
