@@ -385,6 +385,10 @@ class OpenPGPCertificate(object):
         return gnutls_openpgp_crt_get_expiration_time(self._c_object)
 
     @property
+    def revoked(self):
+        return gnutls_openpgp_crt_get_revoked_status(self._c_object)
+
+    @property
     def fingerprint(self):
         size = c_size_t(20)
         fprdata = create_string_buffer(size.value)
