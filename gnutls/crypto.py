@@ -391,9 +391,9 @@ class OpenPGPCertificate(object):
     @property
     def fingerprint(self):
         size = c_size_t(20)
-        fprdata = create_string_buffer(size.value)
+        fprdata = (c_ubyte*20)()
         gnutls_openpgp_crt_get_fingerprint(self._c_object, cast(fprdata, c_void_p), byref(size))
-        return ''.join(["%02X" % ord(x) for x in fprdata.value])
+        return ''.join(["%02X" % x for x in fprdata])
 
     @property
     def version(self):
