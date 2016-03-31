@@ -10,7 +10,7 @@ __all__ = ['X509Name', 'X509Certificate', 'X509PrivateKey', 'X509Identity', 'X50
 import re
 from ctypes import *
 
-from gnutls.validators import method_args, one_of, list_of
+from gnutls.validators import method_args, one_of
 from gnutls.constants import X509_FMT_DER, X509_FMT_PEM, OPENPGP_FMT_RAW, OPENPGP_FMT_BASE64
 from gnutls.errors import *
 
@@ -232,14 +232,14 @@ class X509PrivateKey(object):
 
 class X509Identity(object):
     """A X509 identity represents a X509 certificate and private key pair"""
-
+    
     __slots__ = ('cert', 'key')
-
+    
     @method_args(X509Certificate, X509PrivateKey)
     def __init__(self, cert, key):
         self.cert = cert
         self.key = key
-
+    
     def __setattr__(self, name, value):
         if name in self.__slots__ and hasattr(self, name):
             raise AttributeError("can't set attribute")
@@ -482,6 +482,7 @@ class OpenPGPKeyring(object):
 
     def __len__(self):
         return gnutls_openpgp_keyring_get_crt_count(self._c_object)
+
 
 class DHParams(object):
     def __new__(cls, *args, **kwargs):

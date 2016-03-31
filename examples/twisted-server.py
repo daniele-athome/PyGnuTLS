@@ -23,12 +23,12 @@ class EchoProtocol(LineOnlyReceiver):
             peer_name = session.peer_certificate.subject
         except AttributeError:
             peer_name = 'Unknown'
-        print '\nNew connection from:', peer_name
-        print 'Protocol:     ', session.protocol
-        print 'KX algorithm: ', session.kx_algorithm
-        print 'Cipher:       ', session.cipher
-        print 'MAC algorithm:', session.mac_algorithm
-        print 'Compression:  ', session.compression
+        print '\nNew connection from: %s' % peer_name
+        print 'Protocol:      %s' % session.protocol
+        print 'KX algorithm:  %s' % session.kx_algorithm
+        print 'Cipher:        %s' % session.cipher
+        print 'MAC algorithm: %s' % session.mac_algorithm
+        print 'Compression:   %s' % session.compression
 
     def lineReceived(self, line):
         if line == 'quit':
@@ -38,7 +38,7 @@ class EchoProtocol(LineOnlyReceiver):
 
     def connectionLost(self, reason):
         if reason.type != ConnectionDone:
-            print "Connection was lost:", str(reason.value)
+            print "Connection was lost: %s" % reason.value
 
 class EchoFactory(Factory):
     protocol = EchoProtocol
@@ -52,7 +52,7 @@ ca = X509Certificate(open(certs_path + '/ca.pem').read())
 crl = X509CRL(open(certs_path + '/crl.pem').read())
 cred = X509Credentials(cert, key, [ca], [crl])
 cred.verify_peer = True
-#cred.session_params.compressions = (COMP_LZO, COMP_DEFLATE, COMP_NULL)
+cred.session_params.compressions = (COMP_LZO, COMP_DEFLATE, COMP_NULL)
 
 reactor.listenTLS(10000, EchoFactory(), cred)
 reactor.run()

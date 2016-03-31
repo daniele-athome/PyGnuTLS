@@ -5,6 +5,7 @@
 import sys
 import os
 
+from twisted.internet.error import ConnectionDone
 from twisted.internet.protocol import ClientFactory
 from twisted.protocols.basic import LineOnlyReceiver
 from twisted.internet import reactor
@@ -20,17 +21,19 @@ class EchoProtocol(LineOnlyReceiver):
         self.sendLine('echo')
 
     def lineReceived(self, line):
-        print 'received: ', line
+        print 'received: %s' % line
         self.transport.loseConnection()
 
     def connectionLost(self, reason):
+        if reason.type != ConnectionDone:
+            print "connection was lost: %s" % reason.value
         reactor.stop()
 
 class EchoFactory(ClientFactory):
     protocol = EchoProtocol
 
     def clientConnectionFailed(self, connector, err):
-        print err.value
+        print "connection failed: %s" % err.value
         reactor.stop()
 
 

@@ -1,10 +1,10 @@
-Changes in version 2.0.1
-------------------------
+python-gnutls (2.0.1) unstable; urgency=medium
 
   * Initialize default cipher priorities on Session
 
-Changes in version 2.0.0
-------------------------
+ -- Saul Ibarra <saul@ag-projects.com>  Wed, 02 Jul 2014 13:02:49 +0200
+
+python-gnutls (2.0.0) unstable; urgency=medium
 
   * Swtich to GnuTLS 3 (>= 3.1.4)
   * Added gnutls_certificate_verify_peers3
@@ -15,19 +15,22 @@ Changes in version 2.0.0
   * Bumped Debian Standards-Version
   * Only build Debian package for Python >= 2.7
 
-Changes in version 1.2.5
-------------------------
+ -- Saul Ibarra <saul@ag-projects.com>  Wed, 25 Jun 2014 15:54:26 +0200
+
+python-gnutls (1.2.5) unstable; urgency=medium
 
   * Fixed initializing libgcrypt
   * Enhanced logging in example scripts
 
-Changes in version 1.2.4
-------------------------
+ -- Saul Ibarra <saul@ag-projects.com>  Thu, 12 Dec 2013 17:47:07 +0100
+
+python-gnutls (1.2.4) unstable; urgency=low
 
   * Fixed compatibility with twisted 11.1.0 for TLSServer as well
 
-Changes in version 1.2.3
-------------------------
+ -- Dan Pascu <dan@ag-projects.com>  Mon, 30 Jan 2012 17:43:00 +0200
+
+python-gnutls (1.2.3) unstable; urgency=low
 
   * Always use the gnutls library with the requested version
   * Fixed issue with dlopen ignoring changes to LD_LIBRARY_PATH after launch
@@ -35,15 +38,17 @@ Changes in version 1.2.3
   * Removed unused imports and variables
   * Allow specifying the server session class in TLSPort and reactor.listenTLS
 
-Changes in version 1.2.2
-------------------------
+ -- Dan Pascu <dan@ag-projects.com>  Tue, 10 Jan 2012 20:36:29 +0200
+
+python-gnutls (1.2.2) unstable; urgency=low
 
   * Fixed compatibility with libgnutls 2.11
   * Bumped debian standards version to 3.9.2
   * Reworked debian packaging
 
-Changes in version 1.2.1
-------------------------
+ -- Dan Pascu <dan@ag-projects.com>  Fri, 19 Aug 2011 12:52:51 +0300
+
+python-gnutls (1.2.1) unstable; urgency=low
 
   * Removed no longer needed dependencies from Build-Depends
   * Add the current directory to the Windows search path
@@ -57,8 +62,9 @@ Changes in version 1.2.1
   * Bumped Debian standards version to 3.9.1
   * Added debian source format file
 
-Changes in version 1.2.0
-------------------------
+ -- Dan Pascu <dan@ag-projects.com>  Fri, 20 May 2011 16:24:38 +0300
+
+python-gnutls (1.2.0) unstable; urgency=low
 
   * Fixed threading issue with ctypes older than 1.0.3
   * Removed compile time dependency on gnutls and reorganized library code
@@ -72,21 +78,24 @@ Changes in version 1.2.0
   * Added INSTALL file
   * Bumped debian standards version to 3.8.3
 
-Changes in version 1.1.9
-------------------------
+ -- Dan Pascu <dan@ag-projects.com>  Mon, 01 Feb 2010 17:47:51 +0200
+
+python-gnutls (1.1.9) unstable; urgency=low
 
   * Made loseConnection signature match the corresponding one from twisted
   * Bumped debian standards version to 3.8.2
   * Fixed lintian warning about missing misc:Depends dependency
 
-Changes in version 1.1.8
-------------------------
+ -- Dan Pascu <dan@ag-projects.com>  Wed, 15 Jul 2009 16:26:55 +0300
+
+python-gnutls (1.1.8) unstable; urgency=low
 
   * Workaround for changed tcp.Server.__init__ signature in twisted 8.2.0
   * Fixed DeprecationWarning when running with python2.6 or newer
 
-Changes in version 1.1.7
-------------------------
+ -- Dan Pascu <dan@ag-projects.com>  Tue, 13 Jan 2009 14:59:43 +0200
+
+python-gnutls (1.1.7) unstable; urgency=low
 
   * Updated debian build dependency to libgnutls-dev 2.4.1 or newer
   * Use the default python interpreter instead of /usr/bin/python in
@@ -94,44 +103,57 @@ Changes in version 1.1.7
   * Improved detection of gnutls libraries by using libgnutls-config
   * Fixed gnutls library location for Mac OSX installations
 
-Changes in version 1.1.6
-------------------------
+ -- Dan Pascu <dan@ag-projects.com>  Fri, 09 Jan 2009 18:49:02 +0200
+
+python-gnutls (1.1.6) unstable; urgency=low
 
   * Require libgnutls version 2.4.1 or higher.
+  * Updated standards version to 3.8.0
 
-Changes in version 1.1.5
-------------------------
+ -- Dan Pascu <dan@ag-projects.com>  Tue, 22 Jul 2008 12:38:12 +0300
+
+python-gnutls (1.1.5) unstable; urgency=low
 
   * Added server name extension support.
   * Fixed 64-bit issues with size_t and ssize_t.
   * Require libgnutls version 2.2.2 or higher.
 
-Changes in version 1.1.4
-------------------------
+ -- Dan Pascu <dan@ag-projects.com>  Tue, 29 Apr 2008 15:09:23 +0300
+
+python-gnutls (1.1.4) unstable; urgency=low
 
   * Better integration with twisted. The TLSClient and TLSServer
     classes now declare that they implement ISSLTransport.
+  * Added python-ctypes as dependency.
+  * Moved python-twisted-core to Recommends.
+  * Rephrased debian package description.
+  * Do not compress .py files in the examples from the debian package.
+  * Switched to python-support.
 
-Changes in version 1.1.3
-------------------------
+ -- Dan Pascu <dan@ag-projects.com>  Mon, 17 Sep 2007 16:49:00 +0300
+
+python-gnutls (1.1.3) unstable; urgency=low
 
   * Better version headers for changelog entries.
   * Check if C module initialization failed.
 
-Changes in version 1.1.2
-------------------------
+ -- Dan Pascu <dan@ag-projects.com>  Fri, 24 Aug 2007 15:21:16 +0300
 
-  * Added LICENSE file and updated copyright notices to reference it.
+python-gnutls (1.1.2) unstable; urgency=low
+
+  * Added LICENSE and updated copyright notices to reference it.
   * Only included the relevant examples in the source distribution.
   * Avoid multiple splits on name/value pairs in X509Name.
 
-Changes in version 1.1.1
-------------------------
+ -- Dan Pascu <dan@ag-projects.com>  Fri, 13 Jul 2007 14:21:12 +0300
+
+python-gnutls (1.1.1) unstable; urgency=low
 
   * Removed a circular reference manifesting on handshake failures.
 
-Changes in version 1.1.0
-------------------------
+ -- Dan Pascu <dan@ag-projects.com>  Mon, 14 May 2007 15:57:06 +0300
+
+python-gnutls (1.1.0) unstable; urgency=low
 
   * Send TLS bye if the client session peer certificate verification fails
   * Based CertificateError on GNUTLSError and added 4 new certificate related
@@ -157,15 +179,25 @@ Changes in version 1.1.0
     fails (which in turn will call connectionLost on the protocol).
   * Added _closeWriteConnection to handle half closed connections.
 
-Changes in version 1.0.2
-------------------------
+ -- Dan Pascu <dan@ag-projects.com>  Thu, 10 May 2007 20:20:11 +0300
+
+python-gnutls (1.0.2) unstable; urgency=low
 
   * Avoid the need to handle bye timeouts in the twisted interface by not
     waiting for the bye notification acknowledgement as we do not use the
     TCP connection anymore after closing the TLS session.
 
-Changes in version 1.0.1
-------------------------
+ -- Dan Pascu <dan@ag-projects.com>  Wed, 11 Apr 2007 18:00:30 +0300
+
+python-gnutls (1.0.1) unstable; urgency=low
 
   * Fixed typo in internal class name in the twisted interface
+
+ -- Dan Pascu <dan@ag-projects.com>  Tue, 10 Apr 2007 12:06:07 +0300
+
+python-gnutls (1.0.0) unstable; urgency=medium
+
+  * Initial release.
+
+ -- Dan Pascu <dan@ag-projects.com>  Thu, 29 Mar 2007 09:22:44 +0300
 
